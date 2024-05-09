@@ -106,8 +106,19 @@ spec:
       script:
         image: public.ecr.aws/m8u6z8z4/manabu-test:tf-manager-v0.0.15
         volumeMounts:
-          - mountPath: /var/run/tf
-            name: tf-state
+          - name: tf-state
+            mountPath: /var/run/tf
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: AWS_SECRET_ACCESS_KEY
         command:
           - bash
         source: |
