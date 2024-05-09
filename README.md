@@ -38,57 +38,11 @@ idpbuilder create \
   --package-dir examples/ref-implementation \
   --package-dir examples/terraform-integrations
 ```
+2. To run the templates successfully, you need to make the AWS
+credentials available in the namespace you want to deploy these templates. Check the following on how to do it:
 
-2. Naviate to `idpbuilder` repo and create an AWS Secret on required namespaces for deploying templates on AWS environment using below commands:
-
-```bash
-export IDP_AWS_ACCESS_KEY_ID_BASE64=$(echo -n ${YOUR_AWS_ACCESS_KEY_ID} | base64)
-export IDP_AWS_SECRET_ACCESS_KEY_BASE64=$(echo -n ${YOUR_AWS_SECRET_ACCESS_KEY} | base64)
-# AWS Credentials for argo Namespace
-cat << EOF > ./aws-secrets.yaml
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: aws-credentials
-  namespace: argo
-type: Opaque
-data:
-  AWS_ACCESS_KEY_ID: ${IDP_AWS_ACCESS_KEY_ID_BASE64}
-  AWS_SECRET_ACCESS_KEY: $IDP_AWS_SECRET_ACCESS_KEY_BASE64
-EOF
-kubectl apply -f ./aws-secrets.yaml
-
-# AWS Credentials for data-on-eks Namespace
-cat << EOF > ./aws-secrets-doeks.yaml
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: aws-credentials
-  namespace: data-on-eks
-type: Opaque
-data:
-  AWS_ACCESS_KEY_ID: ${IDP_AWS_ACCESS_KEY_ID_BASE64}
-  AWS_SECRET_ACCESS_KEY: $IDP_AWS_SECRET_ACCESS_KEY_BASE64
-EOF
-kubectl apply -f ./aws-secrets-doeks.yaml
-
-# AWS Credentials for tf-eks-observability Namespace
-cat << EOF > ./aws-secrets-eobs.yaml
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: aws-credentials
-  namespace: tf-eks-observability
-type: Opaque
-data:
-  AWS_ACCESS_KEY_ID: ${IDP_AWS_ACCESS_KEY_ID_BASE64}
-  AWS_SECRET_ACCESS_KEY: $IDP_AWS_SECRET_ACCESS_KEY_BASE64
-EOF
-kubectl apply -f ./aws-secrets-eobs.yaml
-```
+- for [Data on EKS](backstage-templates-for-eks/data-on-eks/README.md)
+- for [EKS Observability Accelerator](backstage-templates-for-eks/eks-observability-accelerator/README.md)
 
 3. Next, lets create a GitHub App Integration with `idpbuilder` setup to create GitHUb repos as part of template deployments. First lets create a GitHub Application to build an integration secret. GitHub app is used to enable integration between Backstage and GitHub. This allows you for integration actions such as automatically importing Backstage configuration such as Organization information and templates.
 
