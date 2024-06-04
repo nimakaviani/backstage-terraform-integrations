@@ -29,7 +29,7 @@ spec:
   - name: region
     value: ${{ values.tfVars.region }}
   - name: secondary_cidr_blocks
-    value: ${{ values.tfVars.secondary_cidr_blocks }}
+    value: [ ${{ values.tfVars.secondary_cidr_blocks }} ]
   - name: vpc_cidr
     value: ${{ values.tfVars.vpc_cidr }}
   retryInterval: 10s
