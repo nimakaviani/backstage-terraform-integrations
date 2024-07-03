@@ -19,11 +19,9 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: aws-package
-  varsFrom:
-    - kind: ConfigMap
-      name: "s3-bucket-${{values.name}}-tf-cm"
-      varsKeys:
-        - aws_region
+  vars:
+  - name: aws_region
+    value: ${{ values.tfVars.aws_region }}
   approvePlan: auto
   retryInterval: 10s
   interval: 2m
