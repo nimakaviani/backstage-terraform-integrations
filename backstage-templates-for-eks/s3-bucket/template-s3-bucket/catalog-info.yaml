@@ -8,7 +8,7 @@ metadata:
     argo-workflows.cnoe.io/label-selector: env=dev,entity-id=${{values.name}}
     argo-workflows.cnoe.io/cluster-name: local
     terraform.cnoe.io/secret-name: tfstate-default-aws-s3-bucket-${{values.name}}
-    terraform.cnoe.io/secret-namespace: flux-system
+    terraform.cnoe.io/secret-namespace: ${{values.namespace}}
 spec:
   type: s3-bucket
   lifecycle: experimental
